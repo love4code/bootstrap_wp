@@ -23,6 +23,13 @@
 	</div><!-- .entry-summary -->
 	<?php else : ?>
 	<div class="entry-content">
+		<?php if ( has_post_thumbnail() ): ?>
+			<div class="row featured-img">
+				<div class="col-xs-12">
+					<?php the_post_thumbnail(); ?>
+				</div>
+			</div>
+		<?php endif; ?>
 		<?php
 			the_content( sprintf(
 				__( 'Continue reading%s &rarr;', 'bs' ),

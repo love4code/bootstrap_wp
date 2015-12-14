@@ -15,7 +15,13 @@
 
 		</div><!-- .entry-meta -->
 	</header><!-- .entry-header -->
-
+	<?php if ( has_post_thumbnail() ): ?>
+		<div class="row">
+			<div class="col-xs-12">
+				<?php the_post_thumbnail(); ?>
+			</div>
+		</div>
+	<?php endif; ?>
 	<div class="entry-content" itemprop="articleBody" >
 		<?php the_content(); ?>
 		<?php

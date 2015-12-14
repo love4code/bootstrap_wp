@@ -40,6 +40,9 @@ function bs_setup() {
 	 */
 	add_theme_support( 'post-thumbnails' );
 
+
+
+
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
 		'primary' => esc_html__( 'Primary Menu', 'bs' ),
@@ -65,8 +68,10 @@ function bs_setup() {
 		'aside',
 		'image',
 		'video',
+		'audio',
 		'quote',
 		'link',
+		'gallery',
 	) );
 
 	// Set up the WordPress core custom background feature.
