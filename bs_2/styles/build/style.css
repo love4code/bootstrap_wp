@@ -5816,3 +5816,14 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+
+.site {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px; }
+  .site:before, .site:after {
+    content: " ";
+    display: table; }
+  .site:after {
+    clear: both; }

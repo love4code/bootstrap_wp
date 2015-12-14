@@ -1,11 +1,8 @@
 <?php
 /**
- * bootstrap theme
- * functions and definitions.
+ * bs functions and definitions
  *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
- *
- * @package burbsress
+ * @package bs
  */
 
 if ( ! function_exists( 'bs_setup' ) ) :
@@ -20,8 +17,8 @@ function bs_setup() {
 	/*
 	 * Make theme available for translation.
 	 * Translations can be filed in the /languages/ directory.
-	 * If you're building a theme based on burbsress, use a find and replace
-	 * to change 'bs' to the name of your theme in all the template files.
+	 * If you're building a theme based on bs, use a find and replace
+	 * to change 'bs' to the name of your theme in all the template files
 	 */
 	load_theme_textdomain( 'bs', get_template_directory() . '/languages' );
 
@@ -39,13 +36,13 @@ function bs_setup() {
 	/*
 	 * Enable support for Post Thumbnails on posts and pages.
 	 *
-	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
+	 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
 	 */
 	add_theme_support( 'post-thumbnails' );
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus( array(
-		'primary' => esc_html__( 'Primary', 'bs' ),
+		'primary' => esc_html__( 'Primary Menu', 'bs' ),
 	) );
 
 	/*
@@ -62,7 +59,7 @@ function bs_setup() {
 
 	/*
 	 * Enable support for Post Formats.
-	 * See https://developer.wordpress.org/themes/functionality/post-formats/
+	 * See http://codex.wordpress.org/Post_Formats
 	 */
 	add_theme_support( 'post-formats', array(
 		'aside',
@@ -70,7 +67,6 @@ function bs_setup() {
 		'video',
 		'quote',
 		'link',
-		'gallery',
 	) );
 
 	// Set up the WordPress core custom background feature.
@@ -83,7 +79,6 @@ function bs_setup() {
 	 * Including Theme Hook Alliance (https://github.com/zamoose/themehookalliance).
 	 */
 	include( 'inc/tha-theme-hooks/tha-theme-hooks.php' );
-
 }
 endif; // bs_setup
 add_action( 'after_setup_theme', 'bs_setup' );
@@ -96,24 +91,33 @@ add_action( 'after_setup_theme', 'bs_setup' );
  * @global int $content_width
  */
 function bs_content_width() {
-	$GLOBALS['content_width'] = apply_filters( 'bs_content_width', 640 );
+	$GLOBALS['content_width'] = apply_filters( 'bs_content_width', 760 );
 }
 add_action( 'after_setup_theme', 'bs_content_width', 0 );
 
 /**
  * Register widget area.
  *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
+ * @link http://codex.wordpress.org/Function_Reference/register_sidebar
  */
 function bs_widgets_init() {
 	register_sidebar( array(
 		'name'          => esc_html__( 'Sidebar', 'bs' ),
 		'id'            => 'sidebar-1',
 		'description'   => '',
-		'before_widget' => '<section id="%1$s" class="widget %2$s">',
-		'after_widget'  => '</section>',
-		'before_title'  => '<h2 class="widget-title">',
-		'after_title'   => '</h2>',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
+	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Footer', 'bs' ),
+		'id'            => 'footer-widget',
+		'description'   => '',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s col-xs-12 col-sm-4">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h4 class="widget-title">',
+		'after_title'   => '</h4>',
 	) );
 }
 add_action( 'widgets_init', 'bs_widgets_init' );
@@ -122,12 +126,15 @@ add_action( 'widgets_init', 'bs_widgets_init' );
  * Enqueue scripts and styles.
  */
 function bs_scripts() {
-	wp_enqueue_style( 'bs-style', get_template_directory_uri() . '/css/style.css' );
+	wp_enqueue_style( 'bs-style', get_template_directory_uri() . "/styles/build/style.css" );
+	
+	wp_enqueue_script( 'jquery', '//code.jquery.com/jquery-1.11.3.js', array(), '1.11.3', true );
 
 	wp_enqueue_script( 'bs-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20120206', true );
 
 	wp_enqueue_script( 'bs-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
-	wp_enqueue_script( 'bs-skip-link-focus-fix', get_template_directory_uri() . '/js/main.js', array(), '0.1', false );
+	
+	wp_enqueue_script( 'bs-bootstrap-js', get_template_directory_uri() . '/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js', null, null, true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -159,3 +166,16 @@ require get_template_directory() . '/inc/customizer.php';
  * Load Jetpack compatibility file.
  */
 require get_template_directory() . '/inc/jetpack.php';
+
+/**
+ * Load navwalker
+ */
+require_once get_template_directory() . '/inc/wp_bootstrap_navwalker.php';
+
+/**
+ * editor style setting
+ */
+function bs_add_editor_styles() {
+    add_editor_style( 'custom-editor-style.css' );
+}
+add_action( 'after_setup_theme', 'bs_add_editor_styles' );
